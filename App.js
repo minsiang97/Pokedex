@@ -16,6 +16,8 @@ import {
   Text,
   useColorScheme,
   View,
+  Dimensions,
+  Image
 } from 'react-native';
 
 import {
@@ -25,6 +27,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import 'react-native-gesture-handler';
+
+import Mainroute from './src/route/Mainroute';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -51,42 +56,24 @@ const Section = ({children, title}): Node => {
     </View>
   );
 };
-
+const SCREEN_WIDTH = Dimensions.get('window').width
+const SCREEN_HEIGHT = Dimensions.get('window').height
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+    
+    {/* <SafeAreaView style={backgroundStyle}/> */}
+    <StatusBar translucent backgroundColor='transparent' />
+    <Mainroute/>
+    
+    </>
   );
 };
 
@@ -104,8 +91,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
   },
-  highlight: {
+  highlight: { 
     fontWeight: '700',
+  },
+  backgroundImage: {
+    position: 'absolute',
+    right: -60,
+    height: 260,
+    width: 260,
+    opacity: 0.3,
   },
 });
 
