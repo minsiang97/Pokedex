@@ -6,10 +6,11 @@ const Card = (props) => {
     const {
         heightPass,
         title,
-        color
+        color,
+        onClickPass
     } = props
     return (
-        <TouchableOpacity style={[styles.cardContainer, {backgroundColor: color, height: heightPass, shadowColor: color}]}>
+        <TouchableOpacity onPress={onClickPass} style={[styles.cardContainer, {backgroundColor: color, height: heightPass, shadowColor: color}]}>
             <Image
                 source={require('../assets/images/pokeball.png')}
                 style={styles.imageTopCorner}

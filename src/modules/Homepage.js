@@ -5,7 +5,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
 import AnimatedHeader from '../components/AnimatedHeader';
 import Card from '../components/Card';
-
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+import { getPokemons } from '../redux/action/pokemons';
+import LoadingComponent from '../components/LoadingComponent';
 
 
 
@@ -19,18 +22,46 @@ const Homepage = ({navigation}) => {
         {title: 'Pokemon Rumble Rush Arrives Soon', date: '15th Feb 2022', image: require('../assets/images/thumbnail.png')},
         {title: 'Pokemon Rumble Rush Arrives Soon', date: '15th Feb 2022', image: require('../assets/images/thumbnail.png')}
     ]
+
+    const dispatch = useDispatch()
+
     useEffect(() => {
         setNews(data)
     },[])
+
     const offset = useRef(new Animated.Value(0)).current;
     const [news, setNews] = useState(null)
-
+    const [modalVisible, setModalVisible] = useState(false)
+    
     const _nextPage = (data) => {
-        navigation.navigate(data)
+        loadPokemon(data)
+        
     }
+    console.log(modalVisible)
+    const loadPokemon = (data) => {
+        setModalVisible(true)
+        axios.get("https://pokeapi.co/api/v2/pokemon/?limit=151")
+        .then( resp =>{ 
+            if (resp.data){
+                setModalVisible(false)
+                dispatch(getPokemons(resp.data.results))
+                navigation.navigate(data)
+            }
+            
+        })
+        
+    }
+
+    
     
     return (
         <>
+        {modalVisible ?
+        <LoadingComponent 
+            modalVisible={modalVisible} 
+            setModalVisible={setModalVisible} 
+        />
+        : null}
         <ScrollView
                 contentContainerStyle={styles.scrollContainer}
                 scrollEventThrottle={16}
@@ -59,7 +90,7 @@ const Homepage = ({navigation}) => {
                         title={'Pokedex'}
                         color={'rgb(111,189,167)'}
                         heightPass={70}
-                        onClickPass={_nextPage('Pokedex')}
+                        onClickPass={ () => _nextPage('Pokedex')}
                     /> 
                     <Card
                         title={'Moves'}
