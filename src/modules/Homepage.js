@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import {SafeAreaView, View, Text, ScrollView, StyleSheet, Image, Dimensions, ImageBackground, TextInput} from 'react-native'
+import React, {useEffect, useState, useRef} from 'react'
+import {Animated, SafeAreaView, View, Text, ScrollView, StyleSheet, Image, Dimensions, ImageBackground, TextInput} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
+import AnimatedHeader from '../components/AnimatedHeader';
 import Card from '../components/Card';
 
 
 
-const Homepage = () => {
+
+const Homepage = ({navigation}) => {
+    
     const data = [
         {title: 'Pokemon Rumble Rush Arrives Soon', date: '15th Feb 2022', image: require('../assets/images/thumbnail.png')},
         {title: 'Pokemon Rumble Rush Arrives Soon', date: '15th Feb 2022', image: require('../assets/images/thumbnail.png')},
@@ -18,12 +22,23 @@ const Homepage = () => {
     useEffect(() => {
         setNews(data)
     },[])
-
+    const offset = useRef(new Animated.Value(0)).current;
     const [news, setNews] = useState(null)
+
+    const _nextPage = (data) => {
+        navigation.navigate(data)
+    }
+    
     return (
         <>
         <ScrollView
                 contentContainerStyle={styles.scrollContainer}
+                scrollEventThrottle={16}
+                onScroll={Animated.event(
+                    [{nativeEvent: {contentOffset: {y: offset}}}],
+                    { useNativeDriver: false }
+                )}
+                
             >
             <View style={styles.titleContainer}>
                 <Image
@@ -44,6 +59,7 @@ const Homepage = () => {
                         title={'Pokedex'}
                         color={'rgb(111,189,167)'}
                         heightPass={70}
+                        onClickPass={_nextPage('Pokedex')}
                     /> 
                     <Card
                         title={'Moves'}
@@ -99,6 +115,7 @@ const Homepage = () => {
             </View>
             
         </ScrollView>
+        <AnimatedHeader offset={offset} textPass={"Pokedex"} />
         </>
     )
 }
@@ -191,7 +208,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 10,
         color: 'rgb(203,203,205)'
-    }
+    },
 })
 
 export default Homepage
