@@ -6,3 +6,10 @@ export const getPokemons = (pokemons) => {
         payload: pokemons
     }
 }
+
+export const savePokemons = (pokemons) => {
+    return {
+        type: type.SAVE_POKEMON,
+        payload: pokemons
+    }
+}

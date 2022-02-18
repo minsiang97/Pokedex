@@ -48,7 +48,7 @@ const LoadingComponent = (props) => {
                             <View style={styles.smallCircle} />
                         </View>
                     </Animated.View>
-                    <Text style={styles.loadingText}>... Loading</Text>
+                    <Text style={styles.loadingText}>Loading ...</Text>
                 </View>
                 </View>
             </Modal>

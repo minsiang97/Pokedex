@@ -23,16 +23,27 @@ const Homepage = ({navigation}) => {
         {title: 'Pokemon Rumble Rush Arrives Soon', date: '15th Feb 2022', image: require('../assets/images/thumbnail.png')}
     ]
 
+    const sampleData = [
+        {title: 'Pokedex', color: 'rgb(111,189,167)'},
+        {title: 'Moves', color: 'rgb(233,110,93)'},
+        {title: 'Abilities', color: 'rgb(90,155,230)'},
+        {title: 'Items', color: 'rgb(239,199,95)'},
+        {title: 'Locations', color: 'rgb(118,86,136)'},
+        {title: 'Type Effects', color: 'rgb(169,117,110)'}
+    ]
+
     const dispatch = useDispatch()
 
     useEffect(() => {
         setNews(data)
+        setCategory(sampleData)
     },[])
 
     const offset = useRef(new Animated.Value(0)).current;
     const [news, setNews] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
-    
+    const [pokemons, setPokemons] = useState([])
+    const [category, setCategory] = useState(null)
     const _nextPage = (data) => {
         loadPokemon(data)
         
@@ -40,15 +51,37 @@ const Homepage = ({navigation}) => {
     console.log(modalVisible)
     const loadPokemon = (data) => {
         setModalVisible(true)
+        let arr = []
         axios.get("https://pokeapi.co/api/v2/pokemon/?limit=151")
-        .then( resp =>{ 
-            if (resp.data){
-                setModalVisible(false)
-                dispatch(getPokemons(resp.data.results))
-                navigation.navigate(data)
+        .then( async function (resp) {
+            if (resp.data) {
+                for (var i in resp.data.results ) {
+                    const data = await fetchPokemonData(resp.data.results[i], arr)
+                    arr.push(data)
+                }
             }
+            console.log(arr)
+            dispatch(getPokemons(arr))
+            setModalVisible(false)
+            navigation.navigate(data)
             
         })
+        
+       
+        
+        
+    }
+
+    const fetchPokemonData = (pokemon, lj) => {
+        let url = pokemon.url
+        return new Promise(resolve =>{
+            axios.get(url)
+            .then(resp => {
+                resolve(resp.data)
+            })
+            
+        }
+        );
         
     }
 
@@ -85,39 +118,22 @@ const Homepage = ({navigation}) => {
                         placeholder={'Search Pokemon, Move, Abilities etc'}
                     />
                 </View>
-                <View style={styles.cardContainer}>
-                    <Card
-                        title={'Pokedex'}
-                        color={'rgb(111,189,167)'}
-                        heightPass={70}
-                        onClickPass={ () => _nextPage('Pokedex')}
-                    /> 
-                    <Card
-                        title={'Moves'}
-                        color={'rgb(233,110,93)'}
-                        heightPass={70}
-                    /> 
-                    <Card
-                        title={'Abilities'}
-                        color={'rgb(90,155,230)'}
-                        heightPass={70}
-                    />
-                    <Card
-                        title={'Items'}
-                        color={'rgb(239,199,95)'}
-                        heightPass={70}
-                    /> 
-                    <Card
-                        title={'Locations'}
-                        color={'rgb(118,86,136)'}
-                        heightPass={70}
-                    /> 
-                    <Card
-                        title={'Type Effects'}
-                        color={'rgb(169,117,110)'}
-                        heightPass={70}
-                    /> 
-                </View>
+                <FlatList
+                    numColumns={2}
+                    data={category}
+                    contentContainerStyle={styles.cardContainer}
+                    renderItem={({item, index}) => (
+                        <Card
+                            title={item.title}
+                            color={item.color}
+                            heightPass={70}
+                            onClickPass={ () => _nextPage(item.title)}
+                            widthPass={'48%'}
+                            center={true}
+                        />
+                    )}
+                />
+                
             </View>
             <View style={styles.newsContainer}>
                 <View style={styles.newsView}>
@@ -200,9 +216,6 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         marginTop: 30,
-        flexDirection: 'row',
-        flexWrap: 'wrap', 
-        justifyContent: 'space-around',
         paddingBottom: 30,
     },
     newsView : {

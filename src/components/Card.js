@@ -7,19 +7,46 @@ const Card = (props) => {
         heightPass,
         title,
         color,
-        onClickPass
+        onClickPass,
+        pokemonImage,
+        types,
+        widthPass,
+        center,
+        pokedex
     } = props
+    
     return (
-        <TouchableOpacity onPress={onClickPass} style={[styles.cardContainer, {backgroundColor: color, height: heightPass, shadowColor: color}]}>
-            <Image
-                source={require('../assets/images/pokeball.png')}
-                style={styles.imageTopCorner}
-            />
-            <Image
-                source={require('../assets/images/pokeball.png')}
-                style={styles.imageBottomCorner}
-            />
-            <Text style={styles.category}>{title}</Text>
+        <TouchableOpacity onPress={onClickPass} style={[styles.cardContainer, {backgroundColor: color, height: heightPass, shadowColor: color, width: widthPass}]}>
+            {pokemonImage && (
+                <Image
+                source={{uri : pokemonImage}}
+                style={styles.pokemonImage}
+                />
+            )}
+            <View style={{overflow: 'hidden', height: heightPass,  justifyContent: center ? 'center' : 'flex-start'}}>
+                <Image
+                    source={require('../assets/images/pokeball.png')}
+                    style={[styles.imageTopCorner, pokedex ? {bottom: -20} : null]}
+                />
+                <Image
+                    source={require('../assets/images/pokeball.png')}
+                    style={styles.imageBottomCorner}
+                />
+                <Text style={[styles.category, {marginTop: pokedex ? 15 : 0}]}>{title.charAt(0).toUpperCase() + title.slice(1)}</Text>
+                {types && (
+                    <View style={styles.typesView}>
+                        {types.map((item) => {
+                            return (
+                            <View style={styles.typeContainer}>
+                                <Text style={styles.types}>{item.type.name}</Text> 
+                            </View>
+                            )
+                        })}
+                        
+                </View>
+                )}
+            </View>
+            
         </TouchableOpacity>
     )
 }
@@ -35,6 +62,14 @@ const styles = StyleSheet.create({
         tintColor: '#f5f5f5',
         overflow: 'hidden'
     },
+    pokemonImage: {
+        position: 'absolute',
+        right: -20,
+        bottom: -20,
+        width: 120,
+        height: 120,
+
+    },
     imageTopCorner: {
         position: 'absolute',
         right: -20,
@@ -45,23 +80,36 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     cardContainer: {
-        width: '48%',
-        position: 'relative',
-        overflow: 'hidden',
         borderRadius: 10,
-        justifyContent: 'center',
         marginTop: 10,
         shadowOpacity: 0.8,
         elevation: 3,
         shadowRadius: 3,
         shadowOffset: {width: 1, height: 2},
-        
+        marginRight: 10
     },
     category : {
         marginLeft: 15,
         color: 'white',
         fontWeight: '800',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        fontSize: 16,
+    },
+    typesView: {
+        marginLeft: 15
+    },
+    typeContainer: {
+        paddingVertical: 3,
+        paddingHorizontal: 10,
+        backgroundColor: 'rgba(245,245,245,0.2)',
+        borderRadius: 26,
+        marginTop: 8,
+        alignSelf: 'flex-start'
+    },
+    types: {
+        color: 'white',
+        fontSize: 12,
+        fontWeight: 'bold'
     }
 })
 
