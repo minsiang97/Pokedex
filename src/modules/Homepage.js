@@ -44,11 +44,13 @@ const Homepage = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [pokemons, setPokemons] = useState([])
     const [category, setCategory] = useState(null)
+
     const _nextPage = (data) => {
-        loadPokemon(data)
-        
+        if (data == 'Pokedex'){
+            loadPokemon(data)
+        }
     }
-    console.log(modalVisible)
+    
     const loadPokemon = (data) => {
         setModalVisible(true)
         let arr = []
@@ -111,13 +113,7 @@ const Homepage = ({navigation}) => {
                     style={styles.backgroundImage}
                 />
                 <Text style={styles.title}>What Pokemon{'\n'}are you looking for?</Text>
-                <View style={styles.searchContainer}>
-                    <Icon name={'search'} size={25} style={styles.searchIcon} />
-                    <TextInput
-                        style={styles.searchFilter}
-                        placeholder={'Search Pokemon, Move, Abilities etc'}
-                    />
-                </View>
+                
                 <FlatList
                     numColumns={2}
                     data={category}
