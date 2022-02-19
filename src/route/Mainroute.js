@@ -30,7 +30,7 @@ const Mainroute = () => {
                         name="PokemonProfile"
                         component={PokemonProfile}
                         options={{
-                            cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter ,
+                            // cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter ,
                             headerShown: false
                         }}
                     />

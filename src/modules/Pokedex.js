@@ -1,17 +1,39 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { ScrollView, View, Image, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Card from '../components/Card'
 import LoadingComponent from '../components/LoadingComponent'
+import { getPokemonDescription, getPokemonEvolution } from '../redux/action/pokemons'
 
 
 const Pokedex = ({navigation}) => {
     const [loadingSpinner, setLoadingSpinner] = useState(false)
     const pokemons = useSelector((state) => state.pokemons.pokemons)
+    const dispatch = useDispatch()
+    
+    const _nextPage = (index, pokemon) => {
+        setLoadingSpinner(true)
+        axios.get(pokemon.species.url)
+        .then(res => {
+            if (res.data){
+                dispatch(getPokemonDescription(res.data))
+                getEvolutionChain(index, res.data)
+            }
+        })
+        
+    }
 
-    const _nextPage = (index) => {
-        navigation.navigate('PokemonProfile', {index})
+    const getEvolutionChain = (index, pokemon) => {
+        axios.get(pokemon.evolution_chain.url)
+        .then(res => {
+            if (res.data){
+                dispatch(getPokemonEvolution(res.data))
+                setLoadingSpinner(false)
+                navigation.navigate('PokemonProfile', {index})
+            }
+        })
     }
 
     useEffect(() => {
@@ -64,7 +86,7 @@ const Pokedex = ({navigation}) => {
                                     widthPass={'48%'}
                                     pokemonImage={item.sprites.front_default}
                                     pokedex={true}
-                                    onClickPass={() => _nextPage(index)}
+                                    onClickPass={() => _nextPage(index, item)}
                                 />
                             )
                         }}

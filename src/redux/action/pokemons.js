@@ -7,9 +7,16 @@ export const getPokemons = (pokemons) => {
     }
 }
 
-export const savePokemons = (pokemons) => {
+export const getPokemonDescription = (pokemon) => {
     return {
-        type: type.SAVE_POKEMON,
-        payload: pokemons
+        type: type.GET_POKEMON_DESCRIPTION,
+        payload: pokemon
+    }
+}
+
+export const getPokemonEvolution = (pokemon) => {
+    return {
+        type: type.GET_POKEMON_EVOLUTION,
+        payload: pokemon
     }
 }

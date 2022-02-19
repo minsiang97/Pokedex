@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         bottom: -20,
         width: 120,
         height: 120,
-
+        zIndex: 100
     },
     imageTopCorner: {
         position: 'absolute',
