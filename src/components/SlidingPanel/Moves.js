@@ -9,7 +9,7 @@ import ProgressBar from '../ProgressBar';
 const Moves = (props) => {
     const {pokemonDescription, pokemon, dragging, setDragging} = props
     const pokemonMoves = useSelector((state) => state.pokemons.pokemonMovesDetails)
-    console.log(pokemonMoves)
+
     return (
         <View style={styles.content}>
             <Text style={styles.title}>Moves</Text>

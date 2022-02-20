@@ -2,35 +2,92 @@ import * as type from '../types'
 
 
 const initialState = {
-    pokemons: []
+    pokemons: [],
+    loading: false,
+    error: null
 }
 
 export default function pokemons(state = initialState, action){
     switch (action.type){
-        case type.GET_POKEMON :
+        case type.GET_POKEMON_REQUESTED :
             return {
                 ...state,
+                loading: true
+            }
+        case type.GET_POKEMON_SUCCESS :
+            return {
+                ...state,
+                loading: false,
                 pokemons: action.payload
             }
-        case type.GET_POKEMON_GENERATIONS :
+        case type.GET_POKEMON_FAILED :
             return {
                 ...state,
+                loading: false,
+                error: action.message
+            }
+        case type.GET_POKEMON_GENERATIONS_REQUESTED :
+            return {
+                ...state,
+                loading: true,
+            }
+        case type.GET_POKEMON_GENERATIONS_SUCCESS :
+            return {
+                ...state,
+                loading: false,
                 generations: action.payload
             }
-        case type.GET_POKEMON_DESCRIPTION :
+        case type.GET_POKEMON_GENERATIONS_FAILED :
             return {
                 ...state,
+                loading: false,
+                error: action.message
+            }
+        case type.GET_POKEMON_DESCRIPTION_REQUESTED :
+            return {
+                ...state,
+                loading: true,
+            }
+        case type.GET_POKEMON_DESCRIPTION_SUCCESS :
+            return {
+                ...state,
+                loading: true,
                 pokemonDescription: action.payload
             }
-        case type.GET_POKEMON_EVOLUTION :
+        case type.GET_POKEMON_DESCRIPTION_FAILED :
             return {
                 ...state,
+                loading: false,
+                error: action.message
+            }
+        case type.GET_POKEMON_EVOLUTION_REQUESTED :
+            return {
+                ...state,
+                loading: true,
+            }
+        case type.GET_POKEMON_EVOLUTION_SUCCESS :
+            return {
+                ...state,
+                loading: true,
                 pokemonEvolution: action.payload
             }
-        case type.GET_POKEMON_MOVES :
+        case type.GET_POKEMON_EVOLUTION_FAILED :
             return {
                 ...state,
+                loading: false,
+                error: action.message
+            }
+        case type.GET_POKEMON_MOVES_SUCCESS :
+            return {
+                ...state,
+                loading: false,
                 pokemonMovesDetails: action.payload
+            }
+        case type.GET_POKEMON_MOVES_FAILED :
+            return {
+                ...state,
+                loading: false,
+                error: action.message
             }
         default :
             return state

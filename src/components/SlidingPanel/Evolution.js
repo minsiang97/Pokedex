@@ -51,7 +51,7 @@ const Evolution = (props) => {
 
         setEvolution(evoChain)
     } 
-    console.log(evolution)
+
     return (
         <View style={styles.content}>
             <Text style={styles.title}>Evolution Chain</Text>

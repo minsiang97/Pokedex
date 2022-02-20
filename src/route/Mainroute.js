@@ -37,10 +37,7 @@ const Mainroute = () => {
                     <Stack.Screen
                         name="PokemonProfile"
                         component={PokemonProfile}
-                        options={{
-                            // cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter ,
-                            headerShown: false
-                        }}
+                        options={{headerShown: false}}
                     />
                     
                 </Stack.Navigator>

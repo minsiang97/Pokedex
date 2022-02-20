@@ -14,52 +14,18 @@ import CardImage from '../components/CardImage'
 
 const Generations = ({navigation}) => {
     const generations = useSelector((state) => state.pokemons.generations)
-    const [loadingSpinner, setLoadingSpinner] = useState(false)
-    
+    const loading = useSelector((state) => state.pokemons.loading)
     
     const dispatch = useDispatch()
     
-    const _nextPage = (pokemon) => {
-        setLoadingSpinner(true)
-        axios.get(pokemon.url)
-        .then(async function (res) {
-            if (res.data){
-                let arr = []
-                for (var i in res.data.pokemon_species){
-                    const pokemonData = await fetchPokemonData(res.data.pokemon_species[i])
-                    arr.push(pokemonData)
-                }
-                dispatch(getPokemons(arr))
-                setLoadingSpinner(false)
-                navigation.navigate('Pokedex')
-
-            }
-        })
-        
+    const _nextPage = async (pokemon) => {
+        dispatch(getPokemons(pokemon.url, navigation))
     }
-
-    const fetchPokemonData = (pokemon) => {
-        let url = pokemon.url
-        const id = url.split('/')[url.split('/').length - 2]
-        return new Promise(resolve =>{
-            axios.get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-            .then(resp => {
-                resolve(resp.data)
-            })
-            
-        }
-        );
-        
-    }
-
-    useEffect(() => {
-        setLoadingSpinner(false)
-    },[])
 
     return (
         <>
-        {loadingSpinner ?
-        <LoadingComponent modalVisible={loadingSpinner} setModalVisible={setLoadingSpinner} />
+        {loading ?
+        <LoadingComponent modalVisible={loading}/>
         : null}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>

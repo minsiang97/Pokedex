@@ -1,36 +1,24 @@
 import * as type from '../types'
 
-export const getPokemons = (pokemons) => {
+export const getPokemons = (url, navigation) => {
     return {
-        type: type.GET_POKEMON,
-        payload: pokemons
+        type: type.GET_POKEMON_REQUESTED,
+        url: url,
+        navigation: navigation 
     }
 }
 
-export const getGenerations = (generations) => {
+export const getGenerations = (navigation) => {
     return {
-        type: type.GET_POKEMON_GENERATIONS,
-        payload: generations
+        type: type.GET_POKEMON_GENERATIONS_REQUESTED,
+        navigation: navigation
     }
 }
 
-export const getPokemonDescription = (pokemon) => {
+export const getPokemonDescription = (pokemon, navigation) => {
     return {
-        type: type.GET_POKEMON_DESCRIPTION,
-        payload: pokemon
-    }
-}
-
-export const getPokemonEvolution = (pokemon) => {
-    return {
-        type: type.GET_POKEMON_EVOLUTION,
-        payload: pokemon
-    }
-}
-
-export const getPokemonMovesDetails = (pokemon) => {
-    return {
-        type: type.GET_POKEMON_MOVES,
-        payload: pokemon
+        type: type.GET_POKEMON_DESCRIPTIONS_REQUESTED,
+        payload: pokemon,
+        navigation: navigation
     }
 }

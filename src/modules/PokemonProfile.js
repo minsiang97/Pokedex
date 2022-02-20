@@ -16,10 +16,6 @@ const PokemonProfile = ({route, navigation}) => {
     const inputRange = [0, 1];
     const outputRange = ['0deg', '360deg'];
     const spinning = spin.interpolate({inputRange, outputRange});
-
-   
-
-    const fadeIn = new Animated.Value(0)
     
    
     useEffect(() => {
@@ -39,32 +35,6 @@ const PokemonProfile = ({route, navigation}) => {
             )
         ).start();
     }
-
-    // const startFadeInAnimation = () => {
-    //     Animated.timing(
-    //         fadeIn,
-    //         {
-    //         toValue: 1,
-    //         duration: 500,
-    //         useNativeDriver: true,
-    //         // easing: Easing.linear
-    //         }
-    //     )
-        
-    // }
-
-    // const startFadeOutAnimation = () => {
-    //     Animated.timing(
-    //         fadeIn,
-    //         {
-    //         toValue: 0,
-    //         duration: 1000,
-    //         useNativeDriver: true,
-    //         easing: Easing.linear
-    //         }
-    //     )
-        
-    // }
     
     return (
         <View 
@@ -88,11 +58,6 @@ const PokemonProfile = ({route, navigation}) => {
                 <TouchableOpacity style={styles.backArrow} onPress={() => navigation.goBack()}>
                     <Icon name={'arrow-back'} size={25} color={'white'}/>
                 </TouchableOpacity>
-                <Animated.View style={{
-                    opacity : fadeIn
-                }} >
-                    <Text>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</Text> 
-                </Animated.View>
             </View>
             
             <View style={styles.pokemonDetails}>
@@ -114,7 +79,9 @@ const PokemonProfile = ({route, navigation}) => {
                     }}
                 />
             </View>
+            {pokemonDescription ?
             <SlidingPanel pokemonDescription={pokemonDescription} pokemon={pokemon}/>
+            : null }
         </View>
     )
 }

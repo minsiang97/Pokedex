@@ -9,6 +9,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { getGenerations, getPokemons } from '../redux/action/pokemons';
 import LoadingComponent from '../components/LoadingComponent';
+import SplashScreen from 'react-native-splash-screen'
 
 
 
@@ -37,6 +38,7 @@ const Homepage = ({navigation}) => {
     useEffect(() => {
         setNews(data)
         setCategory(sampleData)
+        SplashScreen.hide()
     },[])
 
     const offset = useRef(new Animated.Value(0)).current;
@@ -44,6 +46,7 @@ const Homepage = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [pokemons, setPokemons] = useState([])
     const [category, setCategory] = useState(null)
+    const loading = useSelector((state) => state.pokemons.loading)
 
     const _nextPage = (data) => {
         if (data == 'Pokedex'){
@@ -52,26 +55,14 @@ const Homepage = ({navigation}) => {
     }
     
     const loadGeneration = (data) => {
-        setModalVisible(true)
-        axios.get("https://pokeapi.co/api/v2/generation/")
-        .then((resp) => {
-            dispatch(getGenerations(resp.data.results))
-            setModalVisible(false)
-            navigation.navigate('Generations')
-            
-        })
-        
-       
-        
-        
+        dispatch(getGenerations(navigation))
     }
     
     return (
         <>
-        {modalVisible ?
+        {loading?
         <LoadingComponent 
-            modalVisible={modalVisible} 
-            setModalVisible={setModalVisible} 
+            modalVisible={loading} 
         />
         : null}
         <ScrollView

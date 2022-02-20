@@ -38,7 +38,7 @@ const Card = (props) => {
                         {types.map((item) => {
                             return (
                             <View style={styles.typeContainer}>
-                                <Text style={styles.types}>{item.type.name}</Text> 
+                                <Text style={styles.types}>{item.type.name.charAt(0).toUpperCase() + item.type.name.slice(1)}</Text> 
                             </View>
                             )
                         })}

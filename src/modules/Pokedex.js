@@ -14,64 +14,16 @@ import color from '../assets/color'
 
 const Pokedex = ({navigation}) => {
     const pokemons = useSelector((state) => state.pokemons.pokemons)
-    const [loadingSpinner, setLoadingSpinner] = useState(false)
+    const loading = useSelector((state) =>  state.pokemons.loading)
     const [searchFilter, setSearchFilter] = useState("")
     const [filteredPokemons, setFilteredPokemons] = useState(pokemons)
     
     const dispatch = useDispatch()
     
-    const _nextPage = (pokemon) => {
-        setLoadingSpinner(true)
-        axios.get(pokemon.species.url)
-        .then(res => {
-            if (res.data){
-                dispatch(getPokemonDescription(res.data))
-                getEvolutionChain(pokemon, res.data)
-            }
-        })
+    const _nextPage = (pokemon) => { 
+        dispatch(getPokemonDescription(pokemon, navigation)) 
         
     }
-
-    const getEvolutionChain = (pokemon, pokemonEvolution) => {
-        axios.get(pokemonEvolution.evolution_chain.url)
-        .then(res => {
-            if (res.data){
-                dispatch(getPokemonEvolution(res.data))
-                getMovesDetails(pokemon)
-            }
-        })
-    }
-
-    const getMovesDetails = async (pokemon) => {
-        let arr = []
-        for (var i in pokemon.moves){
-           const pokemonMoves = await fetchPokemonMoves(pokemon.moves[i])
-           arr.push(pokemonMoves)
-        }
-        dispatch(getPokemonMovesDetails(arr))
-        setLoadingSpinner(false)
-        navigation.navigate('PokemonProfile', {pokemon})
-        
-        
-    }
-
-    const fetchPokemonMoves = (pokemon) => {
-        let url = pokemon.move.url
-        return new Promise(resolve =>{
-            axios.get(url)
-            .then(resp => {
-                console.log(resp.data)
-                resolve(resp.data)
-            })
-            
-        }
-        );
-        
-    }
-
-    useEffect(() => {
-        setLoadingSpinner(false)
-    },[])
 
     useEffect(() => {
         if (searchFilter.length > 0){
@@ -84,8 +36,8 @@ const Pokedex = ({navigation}) => {
 
     return (
         <>
-        {loadingSpinner ?
-        <LoadingComponent modalVisible={loadingSpinner} setModalVisible={setLoadingSpinner} />
+        {loading ?
+        <LoadingComponent modalVisible={loading}/>
         : null}
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
