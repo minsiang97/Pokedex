@@ -43,11 +43,11 @@ const About = (props) => {
             <View style={styles.heightAndWeight}>
                 <View style={styles.heightAndWeightView}>
                     <Text style={styles.heightAndWeightTitle}>Height</Text>
-                    <Text>{pokemon.height} cm</Text>
+                    <Text>{pokemon.height * 10} cm</Text>
                 </View>
                 <View style={styles.heightAndWeightView}>
                     <Text style={styles.heightAndWeightTitle}>Weight</Text>
-                    <Text>{pokemon.weight} lbs</Text>
+                    <Text>{pokemon.weight / 10} kg</Text>
                 </View>
             </View>
             <View style={styles.breedingContainer}>

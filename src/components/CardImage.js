@@ -2,27 +2,24 @@ import React from 'react'
 import { View , Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 
-const Card = (props) => {
+const CardImage = (props) => {
     const {
         heightPass,
         title,
         color,
         onClickPass,
-        pokemonImage,
         types,
         widthPass,
         center,
         pokedex,
+        textColor,
+        image,
+        borderColor,
+        borderWidth
     } = props
     
     return (
-        <TouchableOpacity onPress={onClickPass} style={[styles.cardContainer, {backgroundColor: color, height: heightPass, width: widthPass}]}>
-            {pokemonImage && (
-                <Image
-                source={{uri : pokemonImage}}
-                style={styles.pokemonImage}
-                />
-            )}
+        <TouchableOpacity onPress={onClickPass} style={[styles.cardContainer, {backgroundColor: color, height: heightPass, width: widthPass, borderColor: borderColor, borderWidth: borderWidth}]}>
             <View style={{overflow: 'hidden', height: heightPass,  justifyContent: center ? 'center' : 'flex-start'}}>
                 <Image
                     source={require('../assets/images/pokeball.png')}
@@ -32,7 +29,7 @@ const Card = (props) => {
                     source={require('../assets/images/pokeball.png')}
                     style={styles.imageBottomCorner}
                 />
-                <Text style={[styles.category, {marginTop: pokedex ? 15 : 0}]}>{title.charAt(0).toUpperCase() + title.slice(1)}</Text>
+                <Text style={[styles.category, {color: textColor ? textColor: 'white'}]}>{title.charAt(0).toUpperCase() + title.slice(1)}</Text>
                 {types && (
                     <View style={styles.typesView}>
                         {types.map((item) => {
@@ -45,6 +42,13 @@ const Card = (props) => {
                         
                 </View>
                 )}
+                {image && (
+                    <Image
+                        source={image}
+                        style={styles.image}
+                    />
+                )
+                }
             </View>
             
         </TouchableOpacity>
@@ -81,20 +85,22 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         borderRadius: 10,
-        marginTop: 10,
+        marginTop: 20,
         shadowColor: 'rgba(0, 0, 0, 0.2)',
         shadowOpacity: 0.8,
         elevation: 4,
         shadowRadius: 5,
         shadowOffset: {width: 1, height: 4},
         marginRight: 10,
+        paddingVertical: 10,
+        alignSelf: 'center'
     },
     category : {
         color: 'white',
         fontWeight: '800',
         overflow: 'hidden',
         fontSize: 16,
-        marginLeft: 15
+        alignSelf: 'center'
     },
     typesView: {
         marginLeft: 15
@@ -119,4 +125,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Card
+export default CardImage

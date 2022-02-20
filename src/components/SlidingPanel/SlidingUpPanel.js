@@ -20,7 +20,7 @@ const SlidingPanel = (props) => {
     const [isBaseStats, setIsBaseStats] = useState(false)
     const [isEvolution, setIsEvolution] = useState(false)
     const [isMoves, setIsMoves] = useState(false)
-    const [dragging, setDragging] = useState(false)
+    const [dragging, setDragging] = useState(true)
     
 
     const clickTab = (tab) => {

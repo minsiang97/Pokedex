@@ -12,6 +12,11 @@ export default function pokemons(state = initialState, action){
                 ...state,
                 pokemons: action.payload
             }
+        case type.GET_POKEMON_GENERATIONS :
+            return {
+                ...state,
+                generations: action.payload
+            }
         case type.GET_POKEMON_DESCRIPTION :
             return {
                 ...state,
@@ -21,6 +26,11 @@ export default function pokemons(state = initialState, action){
             return {
                 ...state,
                 pokemonEvolution: action.payload
+            }
+        case type.GET_POKEMON_MOVES :
+            return {
+                ...state,
+                pokemonMovesDetails: action.payload
             }
         default :
             return state

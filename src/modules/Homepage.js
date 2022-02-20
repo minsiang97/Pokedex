@@ -7,7 +7,7 @@ import AnimatedHeader from '../components/AnimatedHeader';
 import Card from '../components/Card';
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
-import { getPokemons } from '../redux/action/pokemons';
+import { getGenerations, getPokemons } from '../redux/action/pokemons';
 import LoadingComponent from '../components/LoadingComponent';
 
 
@@ -47,25 +47,17 @@ const Homepage = ({navigation}) => {
 
     const _nextPage = (data) => {
         if (data == 'Pokedex'){
-            loadPokemon(data)
+            loadGeneration(data)
         }
     }
     
-    const loadPokemon = (data) => {
+    const loadGeneration = (data) => {
         setModalVisible(true)
-        let arr = []
-        axios.get("https://pokeapi.co/api/v2/pokemon/?limit=151")
-        .then( async function (resp) {
-            if (resp.data) {
-                for (var i in resp.data.results ) {
-                    const data = await fetchPokemonData(resp.data.results[i], arr)
-                    arr.push(data)
-                }
-            }
-            console.log(arr)
-            dispatch(getPokemons(arr))
+        axios.get("https://pokeapi.co/api/v2/generation/")
+        .then((resp) => {
+            dispatch(getGenerations(resp.data.results))
             setModalVisible(false)
-            navigation.navigate(data)
+            navigation.navigate('Generations')
             
         })
         
@@ -73,21 +65,6 @@ const Homepage = ({navigation}) => {
         
         
     }
-
-    const fetchPokemonData = (pokemon, lj) => {
-        let url = pokemon.url
-        return new Promise(resolve =>{
-            axios.get(url)
-            .then(resp => {
-                resolve(resp.data)
-            })
-            
-        }
-        );
-        
-    }
-
-    
     
     return (
         <>

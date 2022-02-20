@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux'
 import Icon from 'react-native-vector-icons/Ionicons'
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SlidingPanel from '../components/SlidingPanel/SlidingUpPanel';
+import color from '../assets/color';
 
 const height = Dimensions.get('window').height
 
 const PokemonProfile = ({route, navigation}) => {
-    const {index} = route.params
+    const {pokemon} = route.params
 
-    const pokemon = useSelector((state) => state.pokemons.pokemons[index] )
     const pokemonDescription = useSelector((state) => state.pokemons.pokemonDescription)
     const spin = new Animated.Value(0)
     const inputRange = [0, 1];
@@ -72,17 +72,7 @@ const PokemonProfile = ({route, navigation}) => {
             styles.container,
             {
             backgroundColor: 
-            pokemon.types[0].type.name == 'fire' ? 
-            'rgb(233,110,93)' 
-            : pokemon.types[0].type.name == 'grass' ? 
-            'rgb(111,189,167)'
-            : pokemon.types[0].type.name == 'water' ?
-            'rgb(90,155,230)' 
-            : pokemon.types[0].type.name == 'bug' ?
-            'rgb(118,86,136)'
-            : pokemon.types[0].type.name == 'electric' ?
-            'rgb(239,199,95)'
-            : 'rgb(169,117,110)',
+            color(pokemon.types[0].type.name),
         }]}>
             <Animated.Image
                 source={require('../assets/images/pokeball.png')} 

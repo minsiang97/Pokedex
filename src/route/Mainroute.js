@@ -6,6 +6,7 @@ import Pokedex from '../modules/Pokedex'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
 import PokemonProfile from '../modules/PokemonProfile'
+import Generations from '../modules/Generations'
 
 const Stack = createStackNavigator()
 
@@ -20,6 +21,13 @@ const Mainroute = () => {
                         name="Homepage"
                         component={Homepage}
                         options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Generations"
+                        component={Generations}
+                        options={{
+                            headerShown: false
+                        }}
                     />
                     <Stack.Screen
                         name="Pokedex"
