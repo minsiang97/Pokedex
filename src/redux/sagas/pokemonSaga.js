@@ -3,7 +3,6 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { getPokemonEvolution } from '../action/pokemons'
 
-// const dispatch = useDispatch()
 
 const getApi = (url) => {
     return axios.get(url)
