@@ -43,7 +43,7 @@ export default function pokemons(state = initialState, action){
                 loading: false,
                 error: action.message
             }
-        case type.GET_POKEMON_DESCRIPTION_REQUESTED :
+        case type.GET_POKEMON_DESCRIPTIONS_REQUESTED :
             return {
                 ...state,
                 loading: true,
