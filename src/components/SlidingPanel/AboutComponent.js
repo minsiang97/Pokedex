@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Foundation'
 import { useSelector } from 'react-redux'
 
 const About = (props) => {
-    const {pokemonDescription, pokemon} = props
+    const {pokemonDescription, pokemon, dragging, setDragging} = props
     const [eggGroups, setEggGroups] = useState(null)
     const [location, setLocation] = useState(null)
     useEffect(() => {
@@ -34,7 +34,12 @@ const About = (props) => {
     }
     
     return (
-        <View style={styles.content}>
+        <ScrollView
+        onTouchStart={() => setDragging(false)}
+        onTouchEnd={() => setDragging(true)}
+        onTouchCancel={() => setDragging(true)}
+        contentContainerStyle={styles.content}
+        >
             <Text>
             {
             pokemonDescription.flavor_text_entries.find(item => item.language.name == 'en').flavor_text.replace(/(\f|\n)/g, " ")
@@ -109,7 +114,7 @@ const About = (props) => {
                     </View>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 

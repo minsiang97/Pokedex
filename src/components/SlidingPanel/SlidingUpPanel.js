@@ -83,7 +83,7 @@ const SlidingPanel = (props) => {
                     </TouchableOpacity>
                 </View>
                 {isAbout ? 
-                    <About pokemonDescription={pokemonDescription} pokemon={pokemon}/>
+                    <About pokemonDescription={pokemonDescription} pokemon={pokemon} dragging={dragging} setDragging={setDragging}/>
                 : null}
                 {isBaseStats ?
                     <BaseStats pokemonDescription={pokemonDescription} pokemon={pokemon}/>
@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     panel : {
         flex: 1,
         backgroundColor: 'white',
-        borderRadius: 26,
+        borderTopLeftRadius: 26,
+        borderTopRightRadius: 26,
         paddingVertical: 20
     },
     header : {
